@@ -95,6 +95,17 @@ void OverkillSolarBms2::end() {
     m_is_initialized = false;
 }
 
+void OverkillSolarBms2::preTransmission(void (*preTransmission)())
+{
+  _preTransmission = preTransmission;
+}
+
+void OverkillSolarBms2::postTransmission(void (*postTransmission)())
+{
+  _postTransmission = postTransmission;
+}
+
+
 // Call this as fast as possible within the sketch's loop() function
 void OverkillSolarBms2::main_task(bool query) {
     if (m_is_initialized) {
@@ -1616,6 +1627,12 @@ uint16_t OverkillSolarBms2::atomic_param_read(uint8_t cmd_code) {
 
 // Write to BMS
 void OverkillSolarBms2::write(uint8_t rw, uint8_t command_code, uint8_t* data, uint8_t length) {
+     // transmit request
+		if (_preTransmission)
+		{
+			_preTransmission();
+		}
+   
     uint16_t checksum = 0;
 
     #ifdef BMS_OPTION_DEBUG_WRITE
@@ -1687,6 +1704,11 @@ void OverkillSolarBms2::write(uint8_t rw, uint8_t command_code, uint8_t* data, u
 }
 
 void OverkillSolarBms2::serial_rx_task() {
+   	  m_serial->flush();    // flush transmit buffer
+		if (_postTransmission)
+		{
+			_postTransmission();
+		}
     int bytes_available = m_serial->available();
     if (bytes_available > 0) {
         #ifdef BMS_OPTION_DEBUG_STATE_MACHINE
