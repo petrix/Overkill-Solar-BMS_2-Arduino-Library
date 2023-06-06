@@ -299,6 +299,11 @@ public:
     void set_query_rate(uint16_t rate);  // Set the
 
     bool get_comm_error_state();  // Returns true if the BMS is not responding
+   
+   
+    // #######################################################################
+    void preTransmission(void (*)());
+    void postTransmission(void (*)());
 
     // #######################################################################
     // 0x03 Basic Info
@@ -651,6 +656,11 @@ private:
     void handle_rx_0xA2();
     void handle_rx_0xA1();
     void handle_rx_param();
+   
+   	    // preTransmission callback function; gets called before writing a Modbus message
+    void (*_preTransmission)();
+    // postTransmission callback function; gets called after a Modbus message has been sent
+    void (*_postTransmission)();
 
 };
 
