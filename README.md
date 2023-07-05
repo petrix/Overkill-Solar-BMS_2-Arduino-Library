@@ -5,4 +5,4 @@ forked here:
 
 ...but forked for a little modification.
 
-My prewious point <working> of interest was a Modbus protocol, so my target is an RS485 communication port.
+My previous working point of interest was a Modbus protocol, so I set my target on RS485 communication port.
