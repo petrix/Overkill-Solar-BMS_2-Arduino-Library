@@ -3,6 +3,4 @@ forked here:
 
         https://github.com/FurTrader/Overkill-Solar-BMS_2-Arduino-Library
 
-...but forked for a little modification.
-
-My previous working point of interest was a Modbus protocol, so I set my target on RS485 communication port.
+The library was adapted to communicate the MCU via rs485 little boards and a two-pins port on JBD BMS marked as "RS485"
